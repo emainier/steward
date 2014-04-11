@@ -145,11 +145,16 @@ SensorTag.prototype.connect = function(self) {
                                }
         , SimpleKey          :
                                function(left, right) {;
-                                 var bt = left ? 'left' : right;
+                                 var bt = left ? 'left' : 'right';
 
-                                 self.info.click = bt;
+                                 self.info.simplekey = bt;
                                  self.info.lastSample = new Date().getTime();
                                  self.changed();
+                                 setTimeout(function() {
+                                   self.info.simplekey = 'none';
+                                   self.info.lastSample = new Date().getTime();
+                                   self.changed()
+                                 }, 50);
                                }
         };
       for (feature in features) if (features.hasOwnProperty(feature)) self.monitor(self, feature, features[feature]);
@@ -193,6 +198,7 @@ exports.start = function() {
                                    , acceleration  : { x: 'meters/second^2', y: 'meters/second^2', z: 'meters/second^2' }
                                    , magnetism     : { x: 'microteslas',     y: 'microteslas',     z: 'microteslas'     }
                                    , orientation   : { x: 'degrees/second',  y: 'degrees/second',  z: 'degrees/second'  }
+                                   , simplekey     : ['left', 'right', 'none']
                                    }
                     }
       , $validate : { perform    : devices.validate_perform }
