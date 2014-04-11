@@ -143,6 +143,14 @@ SensorTag.prototype.connect = function(self) {
                                  self.info.lastSample = new Date().getTime();
                                  if (didP) self.changed();
                                }
+        , SimpleKey          :
+                               function(left, right) {;
+                                 var bt = left ? 'left' : right;
+
+                                 self.info.click = bt;
+                                 self.info.lastSample = new Date().getTime();
+                                 self.changed();
+                               }
         };
       for (feature in features) if (features.hasOwnProperty(feature)) self.monitor(self, feature, features[feature]);
     });
