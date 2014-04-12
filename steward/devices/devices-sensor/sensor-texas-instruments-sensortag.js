@@ -143,21 +143,22 @@ SensorTag.prototype.connect = function(self) {
                                  self.info.lastSample = new Date().getTime();
                                  if (didP) self.changed();
                                }
-        , SimpleKey          :
-                               function(left, right) {;
-                                 var bt = left ? 'left' : 'right';
 
-                                 self.info.simplekey = bt;
-                                 self.info.lastSample = new Date().getTime();
-                                 self.changed();
-                                 setTimeout(function() {
-                                   self.info.simplekey = 'none';
-                                   self.info.lastSample = new Date().getTime();
-                                   self.changed()
-                                 }, 50);
-                               }
         };
       for (feature in features) if (features.hasOwnProperty(feature)) self.monitor(self, feature, features[feature]);
+
+      self.sensor.on('onSimpleKeyChange', function(left, right) {
+        var bt = left ? 'left' : 'right';
+
+        self.info.simplekey = bt;
+        self.info.lastSample = new Date().getTime();
+        self.changed();
+        setTimeout(function() {
+          self.info.simplekey = 'none';
+          self.info.lastSample = new Date().getTime();
+          self.changed()
+        }, 50);
+      });
     });
   });
 };
