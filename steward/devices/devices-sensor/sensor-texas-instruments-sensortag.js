@@ -159,6 +159,9 @@ SensorTag.prototype.connect = function(self) {
           self.changed()
         }, 50);
       });
+      self.sensor['notifySimpleKey'](function(err) {
+        if (!!err) return logger.error('device/' + self.deviceID, { event: 'notify' + feature, diagnostic: err.message });
+      });
     });
   });
 };
